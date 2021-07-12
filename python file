@@ -1,0 +1,69 @@
+# Case-study-of-LinearRegression-in-two-ways
+# Model - 1.
+
+import pandas as pd
+import matplotlib.pyplot  as plt
+import numpy as np
+import seaborn as sns
+iris = sns.load_dataset('iris')
+print(iris.head())
+print(iris.shape)
+max_sepal_length = max(iris['sepal_length'])
+print("Maximum sepal_length is",max_sepal_length)
+print("minimum sepal_length is",min(iris['sepal_length']))
+print("Maximum sepal_width is",max(iris['sepal_width']))
+print("Minimum sepal_width is",min(iris['sepal_width']))
+print("Maximum petal_length is",max(iris['petal_length']))
+print("Minimum petal_length is",min(iris['petal_length']))
+print("Maximum petal_width is",max(iris['petal_width']))
+print("Minimum petal_width is",min(iris['petal_width']))
+print(iris['species'].value_counts())
+sns.barplot(x=iris['sepal_length'],y=iris['petal_length'],hue=iris['species'])
+plt.show()
+sns.scatterplot(x=iris['sepal_length'],y=iris['petal_length'],hue=iris['species'])
+plt.show()
+sns.distplot(iris['sepal_length'])
+plt.show()
+sns.distplot(iris['petal_length'],hist=False)
+plt.show()
+sns.barplot(x=iris['sepal_length'],y=iris['sepal_width'],hue=iris['species'])
+plt.show()
+sns.jointplot(x='sepal_width',y='petal_width',data=iris,color="olive",kind='reg')
+plt.show()
+sns.pairplot(iris,hue="species")
+plt.show()
+plt.subplot(1,2,1)
+sns.barplot(x='petal_length',y='sepal_length',data=iris)
+plt.subplot(1,2,2)
+sns.scatterplot(x='petal_length',y='sepal_length',data=iris,hue='species')
+plt.show()
+plt.pie(iris['sepal_length'],labels=iris['species'])
+plt.show()
+y = iris[['sepal_length']]
+x = iris[['sepal_width']]
+from sklearn.model_selection import train_test_split
+x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=0.3)
+print("x_training set of",x_train.head())
+print("x_testing set of",x_test.head())
+print("y_training set of",y_train.head())
+print("y_test set of",y_test.head())
+from sklearn.linear_model import LinearRegression
+lr = LinearRegression()
+lr.fit(x_train,y_train)
+y_pred = lr.predict(x_test)
+print("y_test is",y_test.head())
+print("y_pred is",y_pred[0:5])
+from sklearn.metrics import mean_squared_error
+print("Mean squared error of Model - 1 is",mean_squared_error(y_test,y_pred))
+
+# model - 2.
+
+y = iris[['sepal_length']]
+x = iris[['sepal_width','petal_length','petal_width']]
+x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=0.3)
+lr2 = LinearRegression()
+lr2.fit(x_train,y_train)
+y_pred1 = lr2.predict(x_test)
+print("Mean squared error of Model - 2 is",mean_squared_error(y_test,y_pred1))
+
+print("In Model - 2 mean squared error is lower than model - 1, hence Model - 2 is better than model - 1")
